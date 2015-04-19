@@ -1,0 +1,14 @@
+<?php $_item = $this->getProduct(); 
+$_caller = $this->getCaller();?>
+            <li class="item">
+                <a href="<?php echo $this->getProductUrl($_item).'?eturec=1' ?>">
+                    <span class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(50, 50)->setWatermarkSize('30x10'); ?>" width="50" height="50" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /></span>
+                </a>
+                <div class="product-details">
+                    <p class="product-name">
+                        <a href="<?php echo $this->getProductUrl($_item).'?eturec=1' ?>">
+                            <?php echo $this->helper('catalog/output')->productAttribute($_item, $_item->getName() , 'name') ?>
+                        </a>
+                    </p>
+                </div>
+            </li>

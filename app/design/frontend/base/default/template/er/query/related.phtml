@@ -1,0 +1,56 @@
+<?php
+              $_product = $this->getProduct();
+        $_categoryIds = $_product->getCategoryIds();
+    ?>
+<div class="block block-related">
+    <div class="block-title">
+        <h2><?php echo $this->__('Related Products') ?></h2>
+    </div>
+    <div class="block-content etu-query-related">
+        <img class="etu-query-related-loading" style="margin: 20px auto;" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA). 'er/ajax-loader.gif'; ?>" />
+        <ol class="mini-products-list" id="block-related">
+        
+        </ol>
+        <script type="text/javascript">decorateList('block-related', 'none-recursive')</script>
+    </div>
+<script id="etu-recommender" type="text/javascript">
+    
+    var erHostname='<?php echo Etu_Er_Helper_Data::$ER_API_SERVER;?>';
+var _qqueryList = _qqueryList || [];
+var _callbackList = _callbackList || [];
+  var $j = jQuery.noConflict();
+  function etuRecQueryCallBack(queryParams,queryResult) {
+    for(callback in _callbackList){
+      callback(queryParams,queryResult);
+    }
+  }
+_qqueryList.push([{
+  group : 'ER',
+cid : '<?php echo Etu_Er_Helper_Data::$ER_CID;?>',
+type : 'item',
+act : 'view',
+pid : '<?php echo $_product->getId(); ?>',
+cat : '<?php echo implode(",", $_categoryIds); ?>',
+qqueryid : 'item'
+}]);
+    _callbackList.push(function (queryParams,queryResult) {
+      if (queryParams.qqueryid != 'item') return;
+  var productCount = <?php echo $this->getProductCount(); ?>; 
+  var allItemHtml = '';
+  if (queryResult.length == 0){
+    $j(".etu-query-related-loading").hide();
+    $j("div.etu-query-related > ol").append('<li>No Results.</li>');  
+  }
+  for (pidx = 0; pidx < queryResult.length; pidx++){
+      if (pidx >= productCount) return;   
+      $j.get('/magento/er/index/product?caller=related&style=list&id='+queryResult[pidx], function( data ) {
+        $j(".etu-query-related-loading").hide();
+      $j("div.etu-query-related > ol").append(data);      
+      });
+  }
+});
+
+    
+    </script>
+</div>
+

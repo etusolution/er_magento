@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<widgets>
+    <query_lastview type="er/query_lastview" translate="name description" module="er">
+        <name>Query By Last Viewed</name>
+        <description>Query recommendation product list by Last viewed</description>
+        <is_email_compatible>0</is_email_compatible>
+        <parameters>
+            <products_count translate="label">
+                <required>1</required>
+                <visible>1</visible>
+                <value>5</value>
+                <label>Number of Products to Display</label>
+                <type>text</type>
+            </products_count>
+            <template>
+                <required>1</required>
+                <visible>1</visible>
+                <label>Template</label>
+                <type>select</type>
+                <value>er/query/widget/lastview.phtml</value>
+                <values>
+                    <default translate="label">
+                        <value>er/query/widget/lastview.phtml</value>
+                        <label>Query By Last Viewed Template</label>
+                    </default>
+                </values>
+            </template>
+        </parameters>
+    </query_lastview>
+
+</widgets>

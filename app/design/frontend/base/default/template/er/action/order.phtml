@@ -1,0 +1,29 @@
+   <?php 
+		$_customerId = $this->getCustomerId();
+		$_orderId = $this->getOrderId();
+?>
+   <script id="etu-recommender" type="text/javascript">
+    
+    var erHostname='<?php echo Etu_Er_Helper_Data::$ER_API_SERVER;?>';
+var _qevents = _qevents || [];
+_qevents.push({
+group : 'ER',
+cid : '<?php echo Etu_Er_Helper_Data::$ER_CID;?>',
+act : 'order',
+uid : '<?php echo $_customerId; ?>',
+oid : '<?php echo $_orderId; ?>',
+ptuple : <?php echo $this->getItemsJson(); ?>,
+
+});
+var erUrlPrefix=('https:' == document.location.protocol ?
+'https://':'http://')+erHostname+'/';
+(function() {
+var er = document.createElement('script');
+er.type = 'text/javascript';
+er.async = true;
+er.src = erUrlPrefix+'/etu.js?'+(new Date().getTime());
+var currentJs=document.getElementById('etu-recommender');
+currentJs.parentNode.insertBefore(er,currentJs);
+})();
+    
+    </script>

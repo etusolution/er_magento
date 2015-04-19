@@ -1,0 +1,23 @@
+Etu ER module for Magento CE 1.9.txt
+
+1. copy all folders & files into magento folder
+
+   Check System => Configuration => Advanced/advanced(left bottom)
+   if there is a module named Etu_er, it's installed correctly.
+
+2. CMS => Pages => Madison Island(It's the default home page) => Content =>
+Add this at bottom:
+<p>{{widget type="er/query_lastview" products_count="5" template="er/query/widget/lastview.phtml"}}</p>
+
+3. in app/design/frontend/rwd/default/template/ :
+
+catalog/product/view.phtml:
+add <?php echo $this->getChildHtml('er_action_view') ?>
+checkout/cart.phtml:
+add <?php echo $this->getChildHtml('er_action_cart') ?>
+catalogsearch/result.phtml:
+add <?php echo $this->getChildHtml('er_action_search') ?>
+
+4. add these lines in /magento/.htaccess file 
+    SetEnv ER_API_SERVER {Host_of_ER_API_server}
+    SetEnv ER_CID {ER_cid}

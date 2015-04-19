@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <er_index_index>
+    <reference name="root">
+      <block name="er_index" template="er/index.phtml" type="er/index"/>
+    </reference>
+  </er_index_index>
+  <er_index_product>
+    <reference name="root">
+      <block name="er_ajax_gridproduct" template="er/ajax/gridproduct.phtml" type="er/ajax_gridproduct"/>
+    </reference>
+  </er_index_product>
+  <catalog_product_view>
+    <reference name="product.info.upsell">
+      <action method="setTemplate">
+        <template>er/query/upsell.phtml</template>
+      </action>
+      <action method="setData">
+        <name>products_count</name>
+        <value>6</value>
+      </action>
+    </reference>
+    <reference name="catalog.product.related">
+      <action method="setTemplate">
+        <template>er/query/related.phtml</template>
+      </action>
+      <action method="setData">
+        <name>products_count</name>
+        <value>6</value>
+      </action>
+    </reference>
+    <reference name="product.info">
+      <block as="er_action_view" name="er.action.view" template="er/action/view.phtml" type="er/action_view"/>
+    </reference>
+  </catalog_product_view>
+  <catalogsearch_result_index>
+    <reference name="search.result">
+      <block as="er_action_search" name="er.action.search" template="er/action/search.phtml" type="er/action_search"/>
+    </reference>
+    <reference name="right">
+      <block as="er_query_search" before="right.reports.product.viewed" name="er.right.query.search" template="er/query/search.phtml" type="er/query_search">
+        <action method="setData">
+          <name>products_count</name>
+          <value>6</value>
+        </action>
+      </block>
+    </reference>
+  </catalogsearch_result_index>
+  <checkout_cart_index>
+    <reference name="checkout.cart.crosssell">
+      <action method="setTemplate">
+        <template>er/query/crosssell.phtml</template>
+      </action>
+      <action method="setData">
+        <name>products_count</name>
+        <value>6</value>
+      </action>
+    </reference>
+    <reference name="checkout.cart">
+      <block as="er_action_cart" name="er.action.cart" template="er/action/cart.phtml" type="er/action_cart"/>
+    </reference>
+  </checkout_cart_index>
+  <checkout_onepage_success>
+    <reference name="checkout.success">
+      <block as="er_action_order" name="er.action.order" template="er/action/order.phtml" type="er/action_order"/>
+    </reference>
+  </checkout_onepage_success>
+</layout>

@@ -1,0 +1,52 @@
+<?php 
+		$_customerId = $this->getCustomerId();
+
+?>
+<div class="widget">
+    <div class="widget-title">
+        <h2 style="text-align: center;"><?php echo $this->__('Recommended By Last Viewed') ?></h2>
+    </div>
+<div class="widget-products etu-query-lastview">
+<img class="etu-query-lastview-loading" style="margin: 20px auto;" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA). 'er/ajax-loader.gif'; ?>" />
+        <ul class="products-grid products-grid--max-<?php echo $this->getColumnCount(); ?>-col-widget">
+            
+        </ul>
+   <script id="etu-recommender" type="text/javascript">
+    
+    var erHostname='<?php echo Etu_Er_Helper_Data::$ER_API_SERVER;?>';
+var _qquery = _qquery || [];
+_qquery.push({
+group : 'ER',
+cid : '<?php echo Etu_Er_Helper_Data::$ER_CID;?>',
+type : 'user',
+act : 'view',
+uid : '<?php echo $_customerId; ?>',
+alg : 'last_item_views',
+});
+	var $j = jQuery.noConflict();
+function etuRecQueryCallBack(queryParams,queryResult) {
+	var productCount = <?php echo $this->getProductCount(); ?>;	
+	var allItemHtml = '';
+	for (pidx = 0; pidx < queryResult.length; pidx++){
+  		if (pidx >= productCount) return;		
+  		$j.get('/magento/er/index/product?caller=lastview&id='+queryResult[pidx], function( data ) {
+  			$j(".etu-query-lastview-loading").hide();
+			$j("div.etu-query-lastview > ul").append(data);			
+  		});
+	}
+}
+
+var erUrlPrefix=('https:' == document.location.protocol ?
+'https://':'http://')+erHostname+'/';
+(function() {
+var er = document.createElement('script');
+er.type = 'text/javascript';
+er.async = true;
+er.src = erUrlPrefix+'/etu.js?'+(new Date().getTime());
+var currentJs=document.getElementById('etu-recommender');
+currentJs.parentNode.insertBefore(er,currentJs);
+})();
+    
+    </script>
+</div>
+</div>

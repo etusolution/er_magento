@@ -1,0 +1,47 @@
+<?php
+              $_product = $this->getProduct();
+        $_categoryIds = $_product->getCategoryIds();
+    $_columnCount = $this->getColumnCount(); ?>
+<div class="box-collateral box-up-sell etu-query-upsell">
+    <h2><?php echo $this->__('You may also be interested in the following product(s)') ?></h2>
+    <img class="etu-query-upsell-loading" style="margin: 20px auto;" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA). 'er/ajax-loader.gif'; ?>" />
+    <ul class="products-grid products-grid--max-<?php echo $_columnCount; ?>-col" id="upsell-product-table">
+    </ul>
+    <script id="etu-recommender" type="text/javascript">
+    
+    var erHostname='<?php echo Etu_Er_Helper_Data::$ER_API_SERVER;?>';
+var _qqueryList = _qqueryList || [];
+var _callbackList = _callbackList || [];
+  var $j = jQuery.noConflict();
+  function etuRecQueryCallBack(queryParams,queryResult) {    
+    _callbackList.forEach(function(callback) {
+        callback(queryParams,queryResult);
+    });
+
+  }
+_qqueryList.push([{
+group : 'ER',
+cid : '<?php echo Etu_Er_Helper_Data::$ER_CID;?>',
+type : 'rank',
+act : 'view',
+cat : '<?php echo $_categoryIds[0] ?>',
+qqueryid : 'rank'
+}]);
+_callbackList.push(function (queryParams,queryResult) {
+  if (queryParams.qqueryid != 'rank') return;
+  var productCount = <?php echo $this->getProductCount(); ?>; 
+  var allItemHtml = '';
+  for (pidx = 0; pidx < queryResult.length; pidx++){
+      if (pidx >= productCount) return;   
+      $j.get('/magento/er/index/product?caller=upsell&id='+queryResult[pidx], function( data ) {
+        $j(".etu-query-upsell-loading").hide();
+      $j("div.etu-query-upsell > ul").append(data);      
+      });
+  }
+});
+
+
+
+    
+    </script>
+</div>

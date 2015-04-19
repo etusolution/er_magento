@@ -1,0 +1,40 @@
+<?php              
+        $_productIds = $this->_getCartProductIds();
+         ?>
+<div class="crosssell etu-query-crosssell">
+    <h2><?php echo $this->__('Based on your selection, you may be interested in the following items:') ?></h2>
+        <img class="etu-query-crosssell-loading" style="margin: 20px auto;" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA). 'er/ajax-loader.gif'; ?>" />
+    <ul id="crosssell-products-list" class="products-grid products-grid--max-3-col">    
+    </ul>
+<script id="etu-recommender" type="text/javascript">
+    var erHostname='<?php echo Etu_Er_Helper_Data::$ER_API_SERVER;?>';
+var _qqueryList = _qqueryList || [];
+var _callbackList = _callbackList || [];
+  var $j = jQuery.noConflict();
+  function etuRecQueryCallBack(queryParams,queryResult) {    
+    _callbackList.forEach(function(callback) {
+        callback(queryParams,queryResult);
+    });
+  }
+_qqueryList.push([{
+group : 'ER',
+cid : '<?php echo Etu_Er_Helper_Data::$ER_CID;?>',
+type : 'item',
+pid : '<?php echo array_pop($_productIds); ?>',
+act : 'cart',
+qqueryid : 'cart'
+}]);
+_callbackList.push(function (queryParams,queryResult) {
+  if (queryParams.qqueryid != 'cart') return;
+  var productCount = <?php echo $this->getProductCount(); ?>; 
+  var allItemHtml = '';
+  for (pidx = 0; pidx < queryResult.length; pidx++){
+      if (pidx >= productCount) return;   
+      $j.get('/magento/er/index/product?caller=crosssell&id='+queryResult[pidx], function( data ) {
+        $j(".etu-query-crosssell-loading").hide();
+      $j("div.etu-query-crosssell > ul").append(data);      
+      });
+  }
+});
+    </script>
+</div>
