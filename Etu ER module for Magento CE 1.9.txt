@@ -21,3 +21,4 @@ add <?php echo $this->getChildHtml('er_action_search') ?>
 4. add these lines in /magento/.htaccess file 
     SetEnv ER_API_SERVER {Host_of_ER_API_server}
     SetEnv ER_CID {ER_cid}
+    SetEnv ER_GROUP {ER_group}
