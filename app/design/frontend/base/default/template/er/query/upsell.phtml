@@ -31,6 +31,10 @@ _callbackList.push(function (queryParams,queryResult) {
   if (queryParams.qqueryid != 'rank') return;
   var productCount = <?php echo $this->getProductCount(); ?>; 
   var allItemHtml = '';
+  if (queryResult.length == 0){
+    $j(".etu-query-upsell-loading").hide();
+    $j("div.etu-query-upsell > ul").append('<li>No Results.</li>');  
+  }
   for (pidx = 0; pidx < queryResult.length; pidx++){
       if (pidx >= productCount) return;   
       $j.get('/magento/er/index/product?caller=upsell&id='+queryResult[pidx], function( data ) {
