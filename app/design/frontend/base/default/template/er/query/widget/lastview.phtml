@@ -33,7 +33,7 @@ function etuRecQueryCallBack(queryParams,queryResult) {
   }
 	for (pidx = 0; pidx < queryResult.length; pidx++){
   		if (pidx >= productCount) return;		
-  		$j.get('/magento/er/index/product?caller=lastview&id='+queryResult[pidx], function( data ) {
+  		$j.get('<?php echo Mage::getBaseUrl();?>er/index/product?caller=lastview&id='+queryResult[pidx], function( data ) {
   			$j(".etu-query-lastview-loading").hide();
 			$j("div.etu-query-lastview > ul").append(data);			
   		});

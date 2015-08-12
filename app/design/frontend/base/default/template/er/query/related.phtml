@@ -43,7 +43,7 @@ qqueryid : 'item'
   }
   for (pidx = 0; pidx < queryResult.length; pidx++){
       if (pidx >= productCount) return;   
-      $j.get('/magento/er/index/product?caller=related&style=list&id='+queryResult[pidx], function( data ) {
+      $j.get('<?php echo Mage::getBaseUrl();?>er/index/product?caller=related&style=list&id='+queryResult[pidx], function( data ) {
         $j(".etu-query-related-loading").hide();
       $j("div.etu-query-related > ol").append(data);      
       });

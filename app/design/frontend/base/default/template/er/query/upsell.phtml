@@ -37,7 +37,7 @@ _callbackList.push(function (queryParams,queryResult) {
   }
   for (pidx = 0; pidx < queryResult.length; pidx++){
       if (pidx >= productCount) return;   
-      $j.get('/magento/er/index/product?caller=upsell&id='+queryResult[pidx], function( data ) {
+      $j.get('<?php echo Mage::getBaseUrl();?>er/index/product?caller=upsell&id='+queryResult[pidx], function( data ) {
         $j(".etu-query-upsell-loading").hide();
       $j("div.etu-query-upsell > ul").append(data);      
       });

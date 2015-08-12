@@ -40,7 +40,7 @@ _callbackList.push(function (queryParams,queryResult) {
   }
   for (pidx = 0; pidx < queryResult.length; pidx++){
       if (pidx >= productCount) return;   
-      $j.get('/magento/er/index/product?caller=search&style=slist&id='+queryResult[pidx], function( data ) {
+      $j.get('<?php echo Mage::getBaseUrl();?>er/index/product?caller=search&style=slist&id='+queryResult[pidx], function( data ) {
         $j(".etu-query-search-loading").hide();
       $j("ol#etu-recommend-bysearch").append(data);      
       });
