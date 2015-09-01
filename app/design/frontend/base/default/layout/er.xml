@@ -33,6 +33,26 @@
       <block as="er_action_view" name="er.action.view" template="er/action/view.phtml" type="er/action_view"/>
     </reference>
   </catalog_product_view>
+    <catalog_category_default>
+        <reference name="right">
+      <block as="er_query_rankcat" after="catalog.compare.sidebar" name="er.right.query.rankcat" template="er/query/rankcat.phtml" type="er/query_rankcat">
+        <action method="setData">
+          <name>products_count</name>
+          <value>6</value>
+        </action>
+      </block>
+    </reference>
+  </catalog_category_default>
+  <catalog_category_layered>
+        <reference name="right">
+      <block as="er_query_rankcat" after="catalog.compare.sidebar" name="er.right.query.rankcat" template="er/query/rankcat.phtml" type="er/query_rankcat">
+        <action method="setData">
+          <name>products_count</name>
+          <value>6</value>
+        </action>
+      </block>
+    </reference>
+  </catalog_category_layered>
   <catalogsearch_result_index>
     <reference name="search.result">
       <block as="er_action_search" name="er.action.search" template="er/action/search.phtml" type="er/action_search"/>

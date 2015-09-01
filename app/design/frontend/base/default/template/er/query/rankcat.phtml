@@ -1,0 +1,64 @@
+<?php
+
+     $_catid = $this->getCurrentCategoryID();
+    ?>
+    <div class="block block-list block-viewed">
+    <div class="block-title">
+        <strong><span><?php echo $this->__('Popular Products in Catgory') ?></span></strong>
+    </div>
+    <div class="block-content">
+        <img class="etu-query-rankcat-loading" style="margin: 20px auto;" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA). 'er/ajax-loader.gif'; ?>" />
+        <ol id="etu-recommend-byrankcat" class="mini-products-list">
+        </ol>
+        <script type="text/javascript">decorateList('etu-recommend-byrankcat');</script>
+    </div>
+    <script id="etu-recommender" type="text/javascript">
+    
+    var erHostname='<?php echo Etu_Er_Helper_Data::$ER_API_SERVER;?>';
+var _qquery = _qquery || [];
+var _callbackList = _callbackList || [];
+  var $j = jQuery.noConflict();
+  function etuRecQueryCallBack(queryParams,queryResult) {    
+    _callbackList.forEach(function(callback) {
+        callback(queryParams,queryResult);
+    });
+
+  }
+_qquery.push({
+group : '<?php echo Etu_Er_Helper_Data::$ER_GROUP;?>',
+cid : '<?php echo Etu_Er_Helper_Data::$ER_CID;?>',
+cat : '<?php echo $_catid; ?>',
+act : 'view',
+type : 'rank',
+qqueryid : 'rankcat'
+});
+_callbackList.push(function (queryParams,queryResult) {
+  if (queryParams.qqueryid != 'rankcat') return;
+  var productCount = <?php echo $this->getProductCount(); ?>; 
+  var allItemHtml = '';
+  if (queryResult.length == 0){
+    $j(".etu-query-rankcat-loading").hide();
+    $j("ol#etu-recommend-byrankcat").append('<li>No Results.</li>');  
+  }
+  for (pidx = 0; pidx < queryResult.length; pidx++){
+      if (pidx >= productCount) return;   
+      $j.get('<?php echo Mage::getBaseUrl();?>er/index/product?caller=rankcat&style=slist&id='+queryResult[pidx], function( data ) {
+        $j(".etu-query-rankcat-loading").hide();
+      $j("ol#etu-recommend-byrankcat").append(data);      
+      });
+  }
+});
+var erUrlPrefix=('https:' == document.location.protocol ?
+'https://':'http://')+erHostname+'/';
+(function() {
+var er = document.createElement('script');
+er.type = 'text/javascript';
+er.async = true;
+er.src = erUrlPrefix+'/etu.js?'+(new Date().getTime());
+var currentJs=document.getElementById('etu-recommender');
+currentJs.parentNode.insertBefore(er,currentJs);
+})();
+    
+    </script>
+</div>
+
